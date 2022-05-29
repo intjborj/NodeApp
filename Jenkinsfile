@@ -8,12 +8,10 @@ node {
     }
 
 	stage('Build image') {
-	
-          steps {
+		
         /* This builds the actual image */
-	      sh 'docker build -t intjborj/nodeapp:latest .'
-        /*app = docker.build("intjborj/nodeapp")*/
-	}	
+        app = docker.build("intjborj/nodeapp")	
+		
     }
 
     stage('Test image') {
