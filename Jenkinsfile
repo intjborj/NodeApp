@@ -11,7 +11,7 @@ node {
 		
 	
         /* This builds the actual image */
-        app = docker.build("intjborj/nodeapp") 	
+        app = docker.build("intjborj/nodeapp:latest") 	
 		
     }
 
@@ -33,3 +33,6 @@ node {
                 echo "Trying to Push Docker Build to DockerHub"
     }
 }
+
+
+
