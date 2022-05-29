@@ -1,38 +1,55 @@
-node {
-    def app
+pipeline{
 
-    stage('Clone repository') {
-        /* Cloning the Repository to our Workspace */
+	agent {label 'linux'}
 
-        checkout scm
-    }
+	environment {
+		DOCKERHUB_CREDENTIALS=credentials('docker-hub')
+	}
 
-	stage('Build image') {
-		
-	
-        /* This builds the actual image */
-        app = docker.build("intjborj/nodeapp:latest") 	
-		
-    }
+	stages {
+	    
+	    stage('gitclone') {
 
-    stage('Test image') {
+			steps {
+				git 'https://github.com/intjborj/NodeApp.git'
+			}
+		}
+
+		stage('Build') {
+
+			steps {
+				sh 'docker build -t intjborj/nodeapp:latest .'
+			}
+		}
+
+		  stage('Test image') {
         
-        app.inside {
-            echo "Tests passed"
-        }
-    }
+       		 steps {
+           		 echo "Tests passed"
+       		 }
+  			  }
+	
+		stage('Login') {
 
-    stage('Push image') {
-        /* 
-			You would need to first register with DockerHub before you can push images to your account
-		*/
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-            } 
-                echo "Trying to Push Docker Build to DockerHub"
-    }
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+
+		stage('Push') {
+
+			steps {
+				sh 'docker push intjborj/nodeapp:latest'
+			}
+		}
+	}
+
+	post {
+		always {
+			sh 'docker logout'
+		}
+	}
+
 }
-
 
 
