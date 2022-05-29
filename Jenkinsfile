@@ -9,8 +9,9 @@ node {
 
 	stage('Build image') {
 		
+	sh 'docker build . -t intjborj/nodeapp'
         /* This builds the actual image */
-        app = docker.build("intjborj/nodeapp")	
+       /* app = docker.build("intjborj/nodeapp") */	
 		
     }
 
