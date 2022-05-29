@@ -7,12 +7,13 @@ node {
         checkout scm
     }
 
-    stage('Build image') 
+	stage('Build image') {
 	
 	step {
         /* This builds the actual image */
 	sh 'docker build -t intjborj/nodeapp:latest .'
         /*app = docker.build("intjborj/nodeapp")*/
+	}	
     }
 
     stage('Test image') {
