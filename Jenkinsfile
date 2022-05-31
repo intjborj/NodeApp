@@ -25,7 +25,7 @@ node {
     stage('Run Images') {
         /* This builds the actual image */
 
-        app = docker.image("intjborj/nodeapp").run
+        docker.image("intjborj/nodeapp").withRun
     }
 
 	
