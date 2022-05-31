@@ -12,6 +12,8 @@ node {
 
         app = docker.build("intjborj/nodeapp")
     }
+	
+	
 
     stage('Test image') {
         
@@ -19,6 +21,14 @@ node {
             echo "Tests passed"
         }
     }
+	
+    stage('Run Images') {
+        /* This builds the actual image */
+
+        app = docker.image("intjborj/nodeapp").run
+    }
+
+	
 
     stage('Push image') {
         /* 
