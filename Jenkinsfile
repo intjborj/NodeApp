@@ -22,14 +22,7 @@ node {
         }
     }
 	
-    stage('Run Images') {
-        /* This builds the actual image */
-
-        docker.image("intjborj/nodeapp").withRun
-    }
-
 	
-
     stage('Push image') {
         /* 
 			You would need to first register with DockerHub before you can push images to your account
